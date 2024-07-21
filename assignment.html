@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment</title>
+    <link rel="stylesheet" href="assignment.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <ul class="Menu">
+            <li class="pointer point">
+                <i class="home fas fa-home"></i>
+            </li>
+            <li class="pointer point">
+                <i class="Boards fas fa-th-list"></i>
+                Boards
+            </li>
+            <li class="M-input">
+                <input type="text" />
+            </li>
+        </ul>
+        <div class="Title">
+            Tralala
+        </div>
+        <div class="Top-Rside">
+            <span class="pointer point">
+                <i class="fas fa-plus" id="add-Board"></i>
+            </span>
+            <span class="pointer point">
+                <i class="fas fa-user" id="profile-image"></i>
+            </span>
+        </div>
+    </nav>
+    <div class="Board-container">
+        <div class="Board-menu">
+            <div class="Board-title">Frontend Training</div>
+            <div class="pointer">
+                <i class="fas fa-ellipsis-v"></i>
+                Show Menu
+            </div>
+        </div>
+        <div class="Board">
+            <div class="task-list-wrapper">
+                <div class="task-list">
+                    <div class="task-list-title-container">
+                        <h3 class="task-list-title">To Do</h3>
+                        <span class="task-list-more pointer">...</span>
+                    </div>
+                    <div class="task pointer">
+                        Learn HTML
+                        <i class="task-edit fas fa-pencil-alt pointer"></i>
+                    </div>
+                    <div class="task pointer">
+                        Learn CSS
+                        <i class="task-edit fas fa-pencil-alt pointer"></i>
+                    </div>
+                    <div class="task pointer">
+                        Learn JavaScript
+                        <i class="task-edit fas fa-pencil-alt pointer"></i>
+                    </div>
+                    <div class="add-card-message pointer">+ Add another card</div>
+                </div>
+            </div>
+            <div class="task-list-wrapper">
+                <div class="task-list">
+                    <div class="task-list-title-container">
+                        <h3 class="task-list-title">Doing</h3>
+                        <span class="task-list-more pointer">...</span>
+                    </div>
+                    <div class="task pointer">Prepare resume</div>
+                    <div class="add-card-form">
+                        <form>
+                            <textarea rows="3" placeholder="Enter a title for this card..."
+                                class="full-width-input"></textarea>
+                            <div class="add-card-form-Top-Rside">
+                                <button class="button">Add Card</button>
+                                <button type="reset" class="reset"> <i
+                                        class="fas fa-2x fa-times add-card-cancel pointer"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="task-list-wrapper">
+                <div class="task-list">
+                    <div class="task-list-title-container">
+                        <h3 class="task-list-title">Testing/Verifying</h3>
+                        <span class="task-list-more pointer">...</span>
+                    </div>
+                    <div class="task pointer">Twitter app frontend</div>
+                    <div class="add-card-message pointer">+ Add another card</div>
+                </div>
+            </div>
+            <div class="task-list-wrapper">
+                <div class="task-list">
+                    <div class="task-list-title-container">
+                        <h3 class="task-list-title">Deploying</h3>
+                        <span class="task-list-more pointer">...</span>
+                    </div>
+                    <div class="task pointer">Twitter app backend</div>
+                    <div class="add-card-message pointer">+ Add another card</div>
+                </div>
+            </div>
+            <div class="task-list-wrapper">
+                <div class="task-list">
+                    <div class="task-list-title-container">
+                        <h3 class="task-list-title">Done</h3>
+                        <span class="task-list-more pointer">...</span>
+                    </div>
+                    <div class="add-card-message pointer">+ Add card</div>
+                </div>
+            </div>
+            <div class="task-list-wrapper">
+                <div class="task-list">
+                    <div class="add-list-message pointer">+ Add another list</div>
+                </div>
+            </div>
+            <div class="task-list-wrapper">
+                <div class="task-list">
+                    <div class="add-card-form">
+                        <form>
+                            <textarea rows="3" placeholder="Enter list title..." class="full-width-input"></textarea>
+                            <div class="add-list-form-actions">
+                                <button class="button">Add List</button>
+                                <button class="reset" type="reset"> <i
+                                        class="fas fa-2x fa-times add-card-cancel pointer"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
