@@ -1,206 +1,237 @@
-var j = 0;
-const jsonData = {
-    name: 'Frontend Training',
-    taskLists: [
-        {
-            name: 'To Do',
-            tasks: [
-                {
-                    name: 'Learn HTML',
-                    due: new Date(2019, 11, 15)
-                },
-                {
-                    name: 'Learn CSS',
-                    due: new Date(2019, 11, 25)
-                },
-                {
-                    name: 'Learn JavaScript',
-                    due: new Date(2019, 12, 14)
-                }
-            ]
-        },
-        {
-            name: 'Doing',
-            tasks: [
-                {
-                    name: 'Prepare resume',
-                    due: new Date(2019, 12, 31)
-                }
-            ]
-        },
-        {
-            name: 'Testing/Verifying',
-            tasks: [
-                {
-                    name: 'Twitter app frontend',
-                    due: new Date(2019, 11, 20)
-                }
-            ]
-        },
+import { Taskdeletion, background, Dalert } from "./module.mjs";
+document.addEventListener('DOMContentLoaded', () => {
+    function createDropdownContent() {
+        const dropdownContent = document.createElement('div');
+        dropdownContent.id = 'dropdownContent';
+        dropdownContent.className = 'dropdown-content';
 
-        {
-            name: 'Deploying',
-            tasks: [
-                {
-                    name: 'Twitter app backend',
-                    due: new Date(2019, 11, 18)
-                }
-            ]
-        },
-        {
-            name: 'Done',
-            tasks: []
+        const deletion = document.createElement('div');
+        deletion.onclick = Taskdeletion;
+
+        const cancelIcon = document.createElement('i');
+        cancelIcon.className = 'fas fa-2x fa-times add-card-cancel';
+        deletion.innerText = 'Delete selected task';
+
+        const move = document.createElement('div');
+
+        const moveIcon = document.createElement('i');
+        moveIcon.className = 'fas fa-arrows-alt';
+        move.innerText = 'Move selected task';
+        move.onclick = () => { dropdownContent.classList.remove('show') };
+
+        const div = document.createElement('div')
+        const hselect = document.createElement('select');
+        const option = document.querySelectorAll('.task-list-title');
+        option.forEach(element => {
+            let opt = document.createElement('option');
+            opt.textContent = element.textContent;
+            hselect.appendChild(opt);
+        });
+        div.appendChild(hselect);
+
+        const save = document.createElement('div');
+        save.onclick = saveBoard;
+        const saveIcon = document.createElement('i');
+        saveIcon.className = 'fas fa-save';
+        save.innerText = 'Save Board';
+        save.style.width = '-webkit-fill-available';
+
+        move.appendChild(moveIcon);
+        deletion.appendChild(cancelIcon);
+        save.appendChild(saveIcon);
+
+        dropdownContent.appendChild(deletion);
+        dropdownContent.appendChild(move);
+        dropdownContent.appendChild(div);
+        dropdownContent.appendChild(save);
+
+        return dropdownContent;
+    }
+    const dropdown = document.querySelector('.dropdown');
+    const dropdownContent = createDropdownContent();
+    dropdown.appendChild(dropdownContent);
+
+    const dropdownButton = document.getElementById('dropdownButton');
+    dropdownButton.addEventListener('click', () => {
+        dropdownContent.classList.toggle('show');
+    });
+
+    dropdownContent.addEventListener('click', (event) => {
+        if (event.target.matches('div[data-value]')) {
+            const selectedValue = event.target.getAttribute('data-value');
+            dropdownButton.textContent = event.target.textContent;
+            dropdownContent.classList.remove('show');
         }
-    ]
-};
-for (let index = 0; index < jsonData.taskLists.length; index++) {
-    const board = document.querySelector('.Board');
+    });
+});
 
+function saveBoard(event) {
+    event.preventDefault();
+    const dragdrop = document.querySelectorAll('.dragdrop');
+    const title = document.querySelectorAll('.task-list-title');
+    jsonData.taskLists = [];
+    dragdrop.forEach(element => {
+        let no = element.id;
+        const head = title[no].textContent;
+        const newTask = {
+            name: `${head}`,
+            tasks: []
+        };
+        const lastTasktitle = jsonData.taskLists;
+        lastTasktitle.push(newTask);
+
+        for (let index = 0; index < element.childElementCount; index++) {
+            let value = element.children[index].textContent;
+            let newtask = { name: `${value}` }
+            jsonData.taskLists[no].tasks.push(newtask);
+        }
+    });
+    const jsonString = JSON.stringify(jsonData);
+    localStorage.setItem('JsonData', jsonString);
+    dropdownContent.classList.remove('show');
+}
+if (localStorage.JsonData) {
+    const retrievedString = localStorage.getItem('JsonData');
+    var jsonData = JSON.parse(retrievedString);
+} else {
+    var jsonData = {
+        name: 'Type Here(Board Name)',
+        taskLists: []
+    };
+}
+const Boardtitle = document.querySelector('.Board-title')
+const Bname = document.createElement('input');
+Boardtitle.appendChild(Bname);
+Bname.placeholder = `${jsonData.name}`;
+Bname.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        jsonData.name = Bname.value;
+        Bname.placeholder = `${jsonData.name}`;
+        Bname.value = '';
+    }
+});
+if (0 != jsonData.taskLists.length) {
+    var j = 0;
+    for (let index = 0; index < jsonData.taskLists.length; index++) {
+        const board = document.querySelector('.Board');
+
+        const taskListWarpper = document.createElement('div');
+        taskListWarpper.className = 'task-list-wrapper';
+
+        const taskList = document.createElement('div');
+        taskList.className = 'task-list';
+
+        const taskListTitleContainer = document.createElement('div');
+        taskListTitleContainer.className = 'task-list-title-container';
+
+        const taskListTitle = document.createElement('h3');
+        taskListTitle.className = 'task-list-title';
+
+        const taskListMore = document.createElement('span');
+        taskListMore.className = 'task-list-more pointer';
+        taskListMore.textContent = '...';
+        taskListMore.onclick = Dalert;
+
+        const dragdrop = document.createElement('div');
+        dragdrop.className = 'dragdrop';
+        dragdrop.id = `${index}`;
+        dragdrop.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+        dragdrop.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const draggedItem = document.querySelector('.highlighted');
+
+            if (e.target.className === 'taskpointer' && e.target !== draggedItem) {
+                const allItems = Array.from(dragdrop.children);
+                const draggedIndex = allItems.indexOf(draggedItem);
+                const targetIndex = allItems.indexOf(e.target);
+
+                if (draggedIndex < targetIndex) {
+                    dragdrop.insertBefore(draggedItem, e.target.nextSibling);
+                } else {
+                    dragdrop.insertBefore(draggedItem, e.target);
+                }
+            }
+            else if (e.target == dragdrop) {
+                dragdrop.prepend(draggedItem);
+            }
+        });
+
+        taskListTitleContainer.appendChild(taskListTitle);
+        taskListTitleContainer.appendChild(taskListMore);
+        taskList.appendChild(taskListTitleContainer);
+        taskList.appendChild(dragdrop);
+        taskListWarpper.appendChild(taskList);
+        board.appendChild(taskListWarpper);
+
+        document.querySelectorAll(".task-list-title")[index].innerHTML = jsonData.taskLists[index].name;
+
+        for (var i = 0; i < jsonData.taskLists[index].tasks.length; i++, j++) {
+
+            const taskPointer = document.createElement('div');
+            taskPointer.className = 'taskpointer';
+            taskPointer.id = `${index} ${i}`;
+            taskPointer.draggable = 'true';
+            taskPointer.onclick = background;
+
+
+            const taskEdit = document.createElement('i');
+            taskEdit.className = 'task-edit fas fa-pencil-alt pointer';
+            taskEdit.onclick = taskEdtior;
+
+            taskPointer.addEventListener('dragstart', (e) => {
+                let draggedItem = e.target;
+                draggedItem.classList.add('highlighted');
+
+                e.target.style.opacity = 0.5;
+            });
+
+            taskPointer.addEventListener('dragend', (e) => {
+                e.target.style.opacity = '';
+                e.target.classList.remove('highlighted');
+
+            });
+            dragdrop.appendChild(taskPointer);
+
+            document.querySelectorAll(".taskpointer")[j].innerHTML = jsonData.taskLists[index].tasks[i].name;
+            taskPointer.appendChild(taskEdit);
+        }
+        const addCard = document.createElement('div');
+        addCard.className = 'add-card-message pointer addList';
+        addCard.textContent = '+ Add another card';
+        addCard.id = `${index}`;
+        addCard.onclick = addAnotherList;
+        taskList.appendChild(addCard);
+        if (index == jsonData.taskLists.length - 1) {
+            update(index)
+        };
+    }
+}
+else {
+    update(-1);
+}
+function update(index) {
     const taskListWarpper = document.createElement('div');
     taskListWarpper.className = 'task-list-wrapper';
 
     const taskList = document.createElement('div');
     taskList.className = 'task-list';
 
-    const taskListTitleContainer = document.createElement('div');
-    taskListTitleContainer.className = 'task-list-title-container';
-
-    const taskListTitle = document.createElement('h3');
-    taskListTitle.className = 'task-list-title';
-
-    const taskListMore = document.createElement('span');
-    taskListMore.className = 'task-list-more pointer';
-    taskListMore.textContent = '...';
-
-    taskListTitleContainer.appendChild(taskListTitle);
-    taskListTitleContainer.appendChild(taskListMore);
-    taskList.appendChild(taskListTitleContainer);
-    taskListWarpper.appendChild(taskList);
-    board.appendChild(taskListWarpper);
-
-    document.querySelectorAll(".task-list-title")[index].innerHTML = jsonData.taskLists[index].name;
-
-    for (var i = 0; i < jsonData.taskLists[index].tasks.length; i++, j++) {
-
-        const taskPointer = document.createElement('div');
-        taskPointer.className = 'taskpointer';
-        taskPointer.id = `${index} ${i}`;
-
-        const taskEdit = document.createElement('i');
-        taskEdit.className = 'task-edit fas fa-pencil-alt pointer';
-        taskEdit.onclick = taskEdtior;
-
-        taskList.appendChild(taskPointer);
-
-        document.querySelectorAll(".taskpointer")[j].innerHTML = jsonData.taskLists[index].tasks[i].name;
-        taskPointer.appendChild(taskEdit);
-    }
     const addCard = document.createElement('div');
     addCard.className = 'add-card-message pointer addList';
-    addCard.textContent = '+ Add another card';
+    if (index == -1) {
+        addCard.textContent = '+ Add List';
+    } else {
+        addCard.textContent = '+ Add another card';
+    }
     addCard.id = `${index}`;
-    addCard.onclick = addAnotherList;
+    addCard.onclick = form;
 
     taskList.appendChild(addCard);
-    update(index);
-}
-function addAnotherList(event) {
-    event.preventDefault();
-
-    var addcardid = this.id;
-    this.classList.remove('add-card-message');
-    this.classList.remove('pointer');
-
-    if (!this.querySelector('.add-card-form')) {    // Check if the form already exists inside the button
-        const form = document.createElement('form');
-        form.className = 'add-card-form'; // Add a class to identify the form
-        form.id = `form${addcardid}`;
-        this.textContent = '';
-
-        const textarea = document.createElement('textarea');
-        textarea.rows = 3;
-        textarea.id = `box${addcardid}`;
-        textarea.placeholder = 'Enter a title for this card...';
-        textarea.className = 'full-width-input';
-
-        const addButton = document.createElement('button');
-        addButton.type = 'submit';
-        addButton.className = 'button';
-        addButton.textContent = 'Add Card';
-        addButton.id = `${addcardid}`;
-        addButton.onclick = addListFunction;
-
-        const cancelIcon = document.createElement('i');
-        cancelIcon.className = 'fas fa-2x fa-times add-card-cancel';
-        cancelIcon.onclick = close;
-        cancelIcon.id = `${addcardid}`
-
-        form.appendChild(textarea);
-        form.appendChild(addButton);
-        form.appendChild(cancelIcon);
-
-        this.insertAdjacentElement('afterend', form);
-        const parentElement = this.parentNode;
-        parentElement.insertBefore(form, this.nextSibling);
-    }
-}
-
-function addListFunction(event) {
-    event.preventDefault();
-
-    const cardno = this.id;
-    const textarea = document.querySelector(`#box${cardno}`);
-
-    if (textarea.value.trim() !== "") {
-        const value = textarea.value;
-
-        const newTask = { name: `${value}` };
-
-        const lastTaskList = jsonData.taskLists[cardno];
-        lastTaskList.tasks.push(newTask);
-
-        const no = jsonData.taskLists[cardno].tasks.length - 1;
-
-        const taskPointer = document.createElement('div');
-        taskPointer.className = 'taskpointer';
-        taskPointer.innerText = jsonData.taskLists[cardno].tasks[no].name;
-        taskPointer.id = `${cardno} ${no}`
-
-        const taskEdit = document.createElement('i');
-        taskEdit.className = 'task-edit fas fa-pencil-alt pointer';
-        taskEdit.onclick = taskEdtior;
-
-        const tasklit = document.querySelectorAll('.task-list')[cardno];
-        taskPointer.appendChild(taskEdit);
-        tasklit.appendChild(taskPointer);
-
-        const formId = document.querySelector(`#form${cardno}`);
-        formId.remove();
-        add = document.querySelectorAll(".task-list")[cardno];
-        const addCard = document.createElement('div');
-        addCard.className = 'add-card-message pointer addList';
-        addCard.textContent = '+ Add another card';
-        addCard.id = `${cardno}`;
-        addCard.onclick = addAnotherList;
-
-        add.appendChild(addCard);
-        textarea.value = "";
-    } else {
-        alert("Please add a value to the item.");
-    }
-}
-function close() {
-    const btnid = this.id;
-    const formId = document.querySelector(`#form${btnid}`);
-    formId.remove();
-    add = document.querySelectorAll(".task-list")[btnid];
-    const addCard = document.createElement('div');
-    addCard.className = 'add-card-message pointer addList';
-    addCard.textContent = '+ Add another card';
-    addCard.id = `${btnid}`;
-    addCard.onclick = addAnotherList;
-
-    add.appendChild(addCard);
+    const board = document.querySelector('.Board');
+    taskListWarpper.appendChild(taskList);
+    board.appendChild(taskListWarpper);
 }
 function form(event) {
     event.preventDefault();
@@ -211,7 +242,7 @@ function form(event) {
 
     if (!this.querySelector('.add-card-form')) {
         const form = document.createElement('form');
-        form.className = 'add-card-form'; // Add a class to identify the form
+        form.className = 'add-card-form';
         form.id = `form${addcardid}`;
         this.textContent = '';
 
@@ -240,6 +271,8 @@ function form(event) {
         this.insertAdjacentElement('afterend', form);
         const parentElement = this.parentNode;
         parentElement.insertBefore(form, this.nextSibling);
+
+        this.remove(this.parentElement);
     }
 }
 function card(event) {
@@ -250,13 +283,6 @@ function card(event) {
     if (textarea.value.trim() !== "") {
         const value = textarea.value;
 
-        const newTask = {
-            name: `${value}`,
-            tasks: []
-        };
-        const lastTasktitle = jsonData.taskLists;
-        lastTasktitle.push(newTask);
-
         const taskListTitleContainer = document.createElement('div');
         taskListTitleContainer.className = 'task-list-title-container';
 
@@ -266,18 +292,44 @@ function card(event) {
         const taskListMore = document.createElement('span');
         taskListMore.className = 'task-list-more pointer';
         taskListMore.textContent = '...';
+        taskListMore.onclick = Dalert;
 
-        add = document.querySelectorAll(".task-list")[cardno];
+        let add = document.querySelectorAll(".task-list")[cardno];
 
+        const dragdrop = document.createElement('div');
+        dragdrop.className = 'dragdrop';
+        dragdrop.id = `${cardno}`;
+        dragdrop.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        dragdrop.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const draggedItem = document.querySelector('.highlighted');
+            if (e.target.className === 'taskpointer' && e.target !== draggedItem) {
+                const allItems = Array.from(dragdrop.children);
+                const draggedIndex = allItems.indexOf(draggedItem);
+                const targetIndex = allItems.indexOf(e.target);
+
+                if (draggedIndex < targetIndex) {
+                    dragdrop.insertBefore(draggedItem, e.target.nextSibling);
+                } else {
+                    dragdrop.insertBefore(draggedItem, e.target);
+                }
+            }
+            else if (e.target == dragdrop) {
+                dragdrop.prepend(draggedItem);
+            }
+        });
         taskListTitleContainer.appendChild(taskListTitle);
         taskListTitleContainer.appendChild(taskListMore);
         add.appendChild(taskListTitleContainer);
+        add.appendChild(dragdrop);
 
-        document.querySelectorAll(".task-list-title")[cardno].innerHTML = jsonData.taskLists[cardno].name;
+        document.querySelectorAll(".task-list-title")[cardno].innerHTML = value;
 
         const formId = document.querySelector(`#form${cardno}`);
         formId.remove();
-        add = document.querySelectorAll(".task-list")[cardno];
         const addCard = document.createElement('div');
         addCard.className = 'add-card-message pointer addList';
         addCard.textContent = '+ Add another card';
@@ -291,38 +343,113 @@ function card(event) {
         alert("Please add a value to the item.");
     }
 }
-function update(index) {
-    if (index == jsonData.taskLists.length - 1) {
-        const taskListWarpper = document.createElement('div');
-        taskListWarpper.className = 'task-list-wrapper';
+function close() {
+    const btnid = this.id;
+    const formId = document.querySelector(`#form${btnid}`);
+    formId.remove();
+    let add = document.querySelectorAll(".task-list")[btnid];
+    const addCard = document.createElement('div');
+    addCard.className = 'add-card-message pointer addList';
+    addCard.textContent = '+ Add another card';
+    addCard.id = `${btnid}`;
+    addCard.onclick = addAnotherList;
 
-        const taskList = document.createElement('div');
-        taskList.className = 'task-list';
+    add.appendChild(addCard);
+}
+function addAnotherList(event) {
+    event.preventDefault();
+    var addcardid = this.id;
+    if (!this.querySelector('.add-card-form')) {
+        const form = document.createElement('form');
+        form.className = 'add-card-form';
+        form.id = `form${addcardid}`;
+        this.textContent = '';
 
-        const taskListTitleContainer = document.createElement('div');
-        taskListTitleContainer.className = 'task-list-title-container';
+        const textarea = document.createElement('textarea');
+        textarea.rows = 3;
+        textarea.id = `box${addcardid}`;
+        textarea.placeholder = 'Enter a title for this card...';
+        textarea.className = 'full-width-input';
 
+        const addButton = document.createElement('button');
+        addButton.type = 'submit';
+        addButton.className = 'button';
+        addButton.textContent = 'Add Card';
+        addButton.id = `${addcardid}`;
+        addButton.onclick = addListFunction;
+
+        const cancelIcon = document.createElement('i');
+        cancelIcon.className = 'fas fa-2x fa-times add-card-cancel';
+        cancelIcon.onclick = close;
+        cancelIcon.id = `${addcardid}`
+
+        form.appendChild(textarea);
+        form.appendChild(addButton);
+        form.appendChild(cancelIcon);
+
+        this.insertAdjacentElement('afterend', form);
+        const parentElement = this.parentNode;
+        parentElement.insertBefore(form, this.nextSibling);
+
+        this.remove(this.parentElement);
+    }
+}
+function addListFunction(event) {
+    event.preventDefault();
+    const cardno = this.id;
+    const textarea = document.querySelector(`#box${cardno}`);
+
+    if (textarea.value.trim() !== "") {
+        const value = textarea.value;
+
+        const taskPointer = document.createElement('div');
+        taskPointer.className = 'taskpointer';
+        taskPointer.innerText = value;
+        taskPointer.onclick = background;
+        taskPointer.draggable = 'true';
+
+        const taskEdit = document.createElement('i');
+        taskEdit.className = 'task-edit fas fa-pencil-alt pointer';
+        taskEdit.onclick = taskEdtior;
+
+        const tasklit = document.querySelectorAll('.dragdrop')[cardno];
+        taskPointer.appendChild(taskEdit);
+        tasklit.appendChild(taskPointer);
+
+        taskPointer.addEventListener('dragstart', (e) => {
+            let draggedItem = e.target;
+            draggedItem.classList.add('highlighted');
+            e.target.style.opacity = 0.5;
+        });
+
+        taskPointer.addEventListener('dragend', (e) => {
+            e.target.style.opacity = '';
+            e.target.classList.remove('highlighted');
+        });
+
+        const formId = document.querySelector(`#form${cardno}`);
+        formId.remove();
+        let add = document.querySelectorAll(".task-list")[cardno];
         const addCard = document.createElement('div');
         addCard.className = 'add-card-message pointer addList';
         addCard.textContent = '+ Add another card';
-        addCard.id = `${index}`;
-        addCard.onclick = form;
+        addCard.id = `${cardno}`;
+        addCard.onclick = addAnotherList;
 
-        taskList.appendChild(addCard);
-        taskList.appendChild(taskListTitleContainer);
-        const board = document.querySelector('.Board');
-        taskListWarpper.appendChild(taskList);
-        board.appendChild(taskListWarpper);
+        add.appendChild(addCard);
+        textarea.value = "";
+    } else {
+        alert("Please add a value to the item.");
     }
 }
 function taskEdtior() {
     const paren = this.parentElement;
     const value = this.parentElement.textContent;
     paren.textContent = '';
-    tid = paren.id;
+    let tid = paren.id;
 
     const form = document.createElement('form');
-    form.className = 'add-card-form'; // Add a class to identify the form
+    form.className = 'add-card-form';
 
     const textarea = document.createElement('textarea');
     textarea.rows = 3;
@@ -358,16 +485,8 @@ function formclose(event) {
     parent.appendChild(taskEdit);
 }
 function listEdit(event) {
-    event.preventDefault();
-    let btnid = this.id;
-    let result = btnid.substring(3); // Start at index 4 to skip 'btn '
     const value = this.parentElement.firstChild.value;
-    const parts = result.split(' ');
-    const index = parts[0];
-    const i = parts[1];
     if (value !== "") {
-        jsonData.taskLists[index].tasks[i].name = value;
-
         const par = this.parentElement;
         const grand = par.parentElement;
 

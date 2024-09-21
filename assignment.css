@@ -3,11 +3,9 @@
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
     font: inherit;
     vertical-align: baseline;
 }
-
 body {
     background-image: url("https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
     background-size: cover;
@@ -19,7 +17,6 @@ body {
     margin-bottom: 0;
     overflow-x: hidden;
 }
-
 .navbar {
     position: fixed;
     top: 0;
@@ -33,42 +30,35 @@ body {
     background-color: rgba(64, 144, 172, 0.65);
     color: white;
 }
-
 .navbar .Title {
     justify-content: space-around;
     font-family: "Comic Sans", "Comic Sans MS", cursive;
     font-size: 2em;
 }
-
 .navbar>* {
     width: 300px;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-
 .navbar .Menu>*,
 .navbar .Top-Rside>* {
     display: inline-block;
-    padding: 8px;
+    padding: 4px;
     border-radius: 2px;
     margin: 0px 4px;
     background-color: rgba(64, 144, 172, 1);
 }
-
 li:hover {
     background-color: rgb(49, 114, 138);
 }
-
 .navbar .Menu {
     justify-content: flex-start;
 }
-
 .navbar .M-input {
     background-color: transparent;
     padding: 0;
 }
-
 .navbar .M-input input {
     width: 120px;
     padding: 4px 0.5em;
@@ -76,37 +66,69 @@ li:hover {
     border-radius: 2px;
     outline: none;
     background-color: rgba(64, 144, 172, 1);
-    color: white;
     font-size: 1.15em;
     line-height: 1.4;
     color: black;
 }
-
 .navbar .M-input input:focus {
     background-color: white;
 }
-
 .navbar .Top-Rside {
     justify-content: flex-end;
 }
-
-
+.Board-title>input {
+    background-color: rgba(0, 0, 0, 0);
+    color: #fff;
+}
+.Board-title>input::placeholder {
+    color: #fff;
+    ;
+}
 .pointer {
     cursor: pointer !important;
 }
-
 .pointer:hover {
     color: #afaeae;
 }
-
 .point:hover {
     background-color: rgb(45, 102, 122);
 }
-
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    border-radius: 5px;
+    box-shadow: 2px 5px 10px;
+    right: 0;
+    color: #000;
+    display: none;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+.dropdown-content div {
+    padding: 5px 20px 5px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: row-reverse;
+    width: max-content;
+    justify-content: flex-end;
+    align-items: center;
+}
+.dropdown-content div i {
+    padding: 1;
+    font-size: medium;
+}
+.dropdown-content div:hover {
+    background-color: #ddd;
+}
+.show {
+    display: block;
+}
 ul {
     list-style: none;
 }
-
 .Board {
     display: flex;
     flex-basis: 100%;
@@ -115,15 +137,12 @@ ul {
     margin-top: 20px;
     padding: 84px 20px 20px;
 }
-
-
 .Board-container {
     display: flex;
     height: 100vh;
     overflow-y: hidden;
 }
-
-.Board-menu  {
+.Board-menu {
     position: fixed;
     top: 50px;
     right: 0px;
@@ -133,90 +152,72 @@ ul {
     align-items: center;
     height: 40px;
     padding: 0 20px;
-    color: black;
     background-color: rgba(128, 128, 128, 0.3);
     color: white;
 }
-
 .task-list-wrapper {
     flex-shrink: 0;
     flex-basis: 240px;
     max-height: 100%;
     overflow: hidden;
 }
-
 .task-list {
     padding: 10px;
     margin-right: 10px;
     border-radius: 7px;
     background-color: rgba(255, 255, 255, 1);
     box-shadow: 3px 5px 2px;
-
 }
-
 .task-list-title-container {
     display: flex;
     justify-content: space-between;
 }
-
 .task-list-title {
     margin: 4px;
     font-weight: bold;
 }
-
 .task-list-more {
     margin: 0 4px;
 }
-
 .task,
 .full-width-input {
     padding: 10px;
-    /* margin: 10px 0; */
     background-color: rgba(221, 221, 221, 0.8);
 }
-
 .task .task-edit {
     float: right;
     display: none;
     color: #000;
 
 }
-
 .task:hover .task-edit {
     display: inline;
 }
-
 .add-card-message,
-.add-list-message{
+.add-list-message {
     background-color: rgba(153, 153, 151, 0.5);
     border-radius: 5px;
 }
-
 .task-list .task,
 .task-list input,
 .task-list textarea,
 .task-list button {
     border-radius: 4px;
 }
-
 input,
 textarea {
     border: none;
     outline: none;
 }
-
-
 .add-card-button,
 .add-list-button {
     margin-right: 8px;
 }
-
 .add-card-cancel,
 .add-list-cancel {
     position: relative;
     top: 3px;
 }
-
 .button {
     margin: auto;
     padding: 10px;
@@ -225,18 +226,16 @@ textarea {
     border: 1px;
 
 }
-
 .button:hover {
     background-color: rgb(0, 132, 255);
 }
-/* form{
+form {
     background-color: #fff;
-} */
-.task-edit{
+}
+.task-edit {
     color: #dad9d9;
 }
-
-.taskpointer{
+.taskpointer {
     margin: 5px;
     padding: 5px;
     background-color: #dad9d9;
@@ -245,19 +244,25 @@ textarea {
     justify-content: space-between;
     border-radius: 4px;
 }
-.taskpointer:hover{
-    color: #777777;
-}.taskpointer:hover>.task-edit{
+.taskpointer:has(> form) {
+    padding: 0;
+}
+.taskpointer:hover {
     color: #777777;
 }
-.reset  {
+.taskpointer:hover>.task-edit {
+    color: #777777;
+}
+.reset {
     color: #6e6e6e;
     padding: 3px;
 }
-/* textarea {
-    background-color: #eeeeee;
-} */
-i{
+.highlighted {
+    background-color: aqua;
+}
+i {
     padding: 5px;
- 
+}
+.dragdrop {
+    padding-top: 7px;
 }

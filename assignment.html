@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +7,6 @@
     <link rel="stylesheet" href="assignment.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 </head>
-
 <body>
     <nav class="navbar">
         <ul class="Menu">
@@ -20,7 +18,7 @@
                 Boards
             </li>
             <li class="M-input">
-                <input type="text"  id="in">
+                <input type="text" id="in">
             </li>
         </ul>
         <div class="Title">
@@ -35,25 +33,21 @@
             </span>
         </div>
     </nav>
-
-
-
     <div class="Board-container">
         <div class="Board-menu">
-            <div class="Board-title">Frontend Training</div>
+            <div class="Board-title"></div>
             <div class="pointer">
-                <i class="fas fa-ellipsis-v"></i>
-                Show Menu
+                <div class="dropdown">
+                    <div id="dropdownButton" class="dropdown-button">
+                        <i class="fas fa-ellipsis-v"></i>
+                        Show Menu
+                    </div>
+                </div>
             </div>
         </div>
-
-
-        
         <div class="Board">
-            
         </div>
     </div>
-    <script src="assignment.js"></script>
+    <script type="module" src="assignment.js"></script>
 </body>
-
 </html>
