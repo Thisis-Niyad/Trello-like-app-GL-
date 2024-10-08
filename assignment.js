@@ -1,4 +1,4 @@
-import { Taskdeletion, background, Dalert } from "./module.mjs";
+import { Taskdeletion, background, Dalert,movetouch,endtouch,dropevent, dragStarted, starttouch } from "./module.mjs";
 document.addEventListener('DOMContentLoaded', () => {
     function createDropdownContent() {
         const dropdownContent = document.createElement('div');
@@ -127,36 +127,22 @@ if (0 != jsonData.taskLists.length) {
         const taskListTitle = document.createElement('h3');
         taskListTitle.className = 'task-list-title';
 
-        const taskListMore = document.createElement('span');
+        const taskListMore = document.createElement('i');
         taskListMore.className = 'task-list-more pointer';
-        taskListMore.textContent = '...';
+        taskListMore.className = 'fa-duotone fa-solid fa-trash';
         taskListMore.onclick = Dalert;
 
         const dragdrop = document.createElement('div');
         dragdrop.className = 'dragdrop';
         dragdrop.id = `${index}`;
+
+        dragdrop.addEventListener('touchstart',starttouch,{ passive: false });
+        dragdrop.addEventListener('touchmove',movetouch,{ passive: false });
+        dragdrop.addEventListener('touchend', endtouch);
         dragdrop.addEventListener('dragover', (e) => {
             e.preventDefault();
         });
-        dragdrop.addEventListener('drop', (e) => {
-            e.preventDefault();
-            const draggedItem = document.querySelector('.highlighted');
-
-            if (e.target.className === 'taskpointer' && e.target !== draggedItem) {
-                const allItems = Array.from(dragdrop.children);
-                const draggedIndex = allItems.indexOf(draggedItem);
-                const targetIndex = allItems.indexOf(e.target);
-
-                if (draggedIndex < targetIndex) {
-                    dragdrop.insertBefore(draggedItem, e.target.nextSibling);
-                } else {
-                    dragdrop.insertBefore(draggedItem, e.target);
-                }
-            }
-            else if (e.target == dragdrop) {
-                dragdrop.prepend(draggedItem);
-            }
-        });
+        dragdrop.addEventListener('drop',dropevent);
 
         taskListTitleContainer.appendChild(taskListTitle);
         taskListTitleContainer.appendChild(taskListMore);
@@ -175,18 +161,11 @@ if (0 != jsonData.taskLists.length) {
             taskPointer.draggable = 'true';
             taskPointer.onclick = background;
 
-
             const taskEdit = document.createElement('i');
             taskEdit.className = 'task-edit fas fa-pencil-alt pointer';
             taskEdit.onclick = taskEdtior;
 
-            taskPointer.addEventListener('dragstart', (e) => {
-                let draggedItem = e.target;
-                draggedItem.classList.add('highlighted');
-
-                e.target.style.opacity = 0.5;
-            });
-
+            taskPointer.addEventListener('dragstart', dragStarted);
             taskPointer.addEventListener('dragend', (e) => {
                 e.target.style.opacity = '';
                 e.target.classList.remove('highlighted');
@@ -289,38 +268,24 @@ function card(event) {
         const taskListTitle = document.createElement('h3');
         taskListTitle.className = 'task-list-title';
 
-        const taskListMore = document.createElement('span');
+        const taskListMore = document.createElement('i');
         taskListMore.className = 'task-list-more pointer';
-        taskListMore.textContent = '...';
+        taskListMore.className = 'fa-duotone fa-solid fa-trash';
         taskListMore.onclick = Dalert;
-
-        let add = document.querySelectorAll(".task-list")[cardno];
 
         const dragdrop = document.createElement('div');
         dragdrop.className = 'dragdrop';
         dragdrop.id = `${cardno}`;
+
+        dragdrop.addEventListener('touchstart',starttouch,{ passive: false });
+        dragdrop.addEventListener('touchmove',movetouch,{ passive: false });
+        dragdrop.addEventListener('touchend', endtouch);
         dragdrop.addEventListener('dragover', (e) => {
             e.preventDefault();
         });
+        dragdrop.addEventListener('drop',dropevent);
 
-        dragdrop.addEventListener('drop', (e) => {
-            e.preventDefault();
-            const draggedItem = document.querySelector('.highlighted');
-            if (e.target.className === 'taskpointer' && e.target !== draggedItem) {
-                const allItems = Array.from(dragdrop.children);
-                const draggedIndex = allItems.indexOf(draggedItem);
-                const targetIndex = allItems.indexOf(e.target);
-
-                if (draggedIndex < targetIndex) {
-                    dragdrop.insertBefore(draggedItem, e.target.nextSibling);
-                } else {
-                    dragdrop.insertBefore(draggedItem, e.target);
-                }
-            }
-            else if (e.target == dragdrop) {
-                dragdrop.prepend(draggedItem);
-            }
-        });
+        let add = document.querySelectorAll(".task-list")[cardno];
         taskListTitleContainer.appendChild(taskListTitle);
         taskListTitleContainer.appendChild(taskListMore);
         add.appendChild(taskListTitleContainer);
@@ -416,11 +381,7 @@ function addListFunction(event) {
         taskPointer.appendChild(taskEdit);
         tasklit.appendChild(taskPointer);
 
-        taskPointer.addEventListener('dragstart', (e) => {
-            let draggedItem = e.target;
-            draggedItem.classList.add('highlighted');
-            e.target.style.opacity = 0.5;
-        });
+        taskPointer.addEventListener('dragstart',dragStarted);
 
         taskPointer.addEventListener('dragend', (e) => {
             e.target.style.opacity = '';

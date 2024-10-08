@@ -82,7 +82,7 @@ li:hover {
 }
 .Board-title>input::placeholder {
     color: #fff;
-    ;
+    
 }
 .pointer {
     cursor: pointer !important;
@@ -243,6 +243,7 @@ form {
     display: flex;
     justify-content: space-between;
     border-radius: 4px;
+    width: 200px;
 }
 .taskpointer:has(> form) {
     padding: 0;
