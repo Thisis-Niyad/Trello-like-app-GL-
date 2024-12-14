@@ -11,7 +11,6 @@ const search = document.createElement('input');
 const li = document.querySelector('.M-input');
 li.appendChild(search);
 search.addEventListener('keydown', (event) => {
-    console.log(event);
     const taskpointer = document.querySelectorAll('.taskpointer');
     if (event.key === 'Enter') {
         taskpointer.forEach(element => {
@@ -69,7 +68,7 @@ export function movetouch(e) {
         e.target.style.opacity = 0.5;
         draggedItem.style.position = 'absolute';
         draggedItem.style.top = `${e.changedTouches[0].clientY - 25}px`;
-        draggedItem.style.left = `${e.changedTouches[0].clientX - 25}px`;
+        draggedItem.style.left = `${e.changedTouches[0].clientX - 100}px`;
     }
 }
 
@@ -85,6 +84,8 @@ export function endtouch(e) {
         if (element && (parseFloat(y) !== clientY && parseFloat(x) !== clientX)) {
             if (element.className == 'taskpointer') {
                 element = element.parentNode;
+            }else if(element.className == 'task-list'){
+                element = element.children[1];
             }
             if (e.target.className === 'taskpointer' && element.className == 'dragdrop') {
                 const items = Array.from(element.children);
@@ -133,3 +134,53 @@ export function dragStarted(e) {
     draggedItem.classList.add('highlighted');
     e.target.style.opacity = 0.5;
 }
+window.alert=function (message,timeout=null) {
+    const divElement = document.querySelector('.alert');
+
+    if (divElement && divElement.parentElement === document.body){
+        const alert=document.querySelector('.alert');
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => {
+                alert.classList.add('dim');
+            }, i * 150);
+            setTimeout(() => {
+                alert.classList.remove('dim');
+            }, i * 150 +50);
+        }
+    }else{
+    const alert= document.createElement("div");
+    const btn=document.createElement("button");
+    btn.innerText="ok";
+    btn.className="button";
+    btn.setAttribute('style',
+        ` margin:0;
+        padding:5px 10px;`
+
+    );
+    btn.addEventListener('click',(e)=>{
+        alert.remove();
+    });
+    alert.classList.add("alert");
+    alert.innerHTML=`<span>${message}</span>`;
+    alert.appendChild(btn);
+    document.body.appendChild(alert);
+}
+}
+// window.confirm=function (message,timeout=null) {
+//     const alert= document.createElement("div");
+//     const btn=document.createElement("button");
+//     btn.innerText="ok";
+//     btn.className="button";
+//     btn.setAttribute('style',
+//         ` margin:0;
+//         padding:5px 10px;`
+//     );
+//     btn.addEventListener('click',(e)=>{
+//         alert.remove();
+//         return true;
+//     });
+//     alert.classList.add("alert");
+//     alert.innerHTML=`<span>${message}</span>`;
+//     alert.appendChild(btn);
+//     document.body.appendChild(alert);
+// }

@@ -7,7 +7,7 @@
     vertical-align: baseline;
 }
 body {
-    background-image: url("https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+    background-image: url("https://miro.medium.com/v2/resize:fit:1400/0*G3yOJ-AgYJRM7pM3");
     background-size: cover;
     background-attachment: fixed;
     font-family: Segoe UI, Roboto, "Helvetica Neue", sans-serif;
@@ -27,13 +27,15 @@ body {
     height: 50px;
     text-align: center;
     padding: 8px 20px;
-    background-color: rgba(64, 144, 172, 0.65);
+    background-color: rgba(85, 84, 84, 0.616);
     color: white;
 }
 .navbar .Title {
     justify-content: space-around;
-    font-family: "Comic Sans", "Comic Sans MS", cursive;
-    font-size: 2em;
+    font-family: math;
+    font-size: 3vw;
+    font-weight: bold;
+    text-shadow: 3px 2px 2px  rgb(201 155 131);
 }
 .navbar>* {
     width: 300px;
@@ -47,7 +49,7 @@ body {
     padding: 4px;
     border-radius: 2px;
     margin: 0px 4px;
-    background-color: rgba(64, 144, 172, 1);
+    background-color: rgb(201 155 131 / 44%);
 }
 li:hover {
     background-color: rgb(49, 114, 138);
@@ -60,12 +62,12 @@ li:hover {
     padding: 0;
 }
 .navbar .M-input input {
-    width: 120px;
+    width: 135px;
     padding: 4px 0.5em;
     border: none;
     border-radius: 2px;
     outline: none;
-    background-color: rgba(64, 144, 172, 1);
+    background-color: rgb(201 155 131 / 44%);
     font-size: 1.15em;
     line-height: 1.4;
     color: black;
@@ -91,7 +93,7 @@ li:hover {
     color: #afaeae;
 }
 .point:hover {
-    background-color: rgb(45, 102, 122);
+    background-color: rgb(201 155 131 / 58%);
 }
 .dropdown {
     position: relative;
@@ -152,8 +154,9 @@ ul {
     align-items: center;
     height: 40px;
     padding: 0 20px;
-    background-color: rgba(128, 128, 128, 0.3);
+    background-color: rgba(70, 69, 69, 0.37);
     color: white;
+    font-weight: bold;
 }
 .task-list-wrapper {
     flex-shrink: 0;
@@ -222,12 +225,13 @@ textarea {
     margin: auto;
     padding: 10px;
     color: white;
-    background-color: rgba(63, 148, 179, 0.9);
+    background-color: rgb(0, 132, 255);
     border: 1px;
+    border-radius: 7px;
 
 }
 .button:hover {
-    background-color: rgb(0, 132, 255);
+    background-color: rgb(6, 105, 141);
 }
 form {
     background-color: #fff;
@@ -259,11 +263,25 @@ form {
     padding: 3px;
 }
 .highlighted {
-    background-color: aqua;
+    background-color: rgb(252, 168, 99);
 }
 i {
     padding: 5px;
 }
 .dragdrop {
     padding-top: 7px;
+}
+.alert{
+    position-area: top;
+    position: fixed;
+    top: 60px;
+    padding: 20px 15px;
+    border-radius: 7px;
+    box-shadow: 3px 5px 2px;
+    background-color: #fff;
+    color: #000;
+    display: grid;
+}
+.dim {
+    background-color:rgba(179, 179, 179, 0.795)
 }
