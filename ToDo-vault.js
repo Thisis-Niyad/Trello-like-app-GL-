@@ -1,4 +1,4 @@
-import { Taskdeletion, background, Dalert,movetouch,endtouch,dropevent, dragStarted, starttouch } from "./module.mjs";
+import { Taskdeletion, background, Dalert, movetouch, endtouch, dropevent, dragStarted, starttouch } from "./ToDo-vaultModule.mjs";
 document.addEventListener('DOMContentLoaded', () => {
     function createDropdownContent() {
         const dropdownContent = document.createElement('div');
@@ -136,13 +136,13 @@ if (0 != jsonData.taskLists.length) {
         dragdrop.className = 'dragdrop';
         dragdrop.id = `${index}`;
 
-        dragdrop.addEventListener('touchstart',starttouch,{ passive: false });
-        dragdrop.addEventListener('touchmove',movetouch,{ passive: false });
+        dragdrop.addEventListener("pointerdown", starttouch, { passive: false });
+        dragdrop.addEventListener('touchmove', movetouch, { passive: false });
         dragdrop.addEventListener('touchend', endtouch);
         dragdrop.addEventListener('dragover', (e) => {
             e.preventDefault();
         });
-        dragdrop.addEventListener('drop',dropevent);
+        dragdrop.addEventListener('drop', dropevent);
 
         taskListTitleContainer.appendChild(taskListTitle);
         taskListTitleContainer.appendChild(taskListMore);
@@ -277,13 +277,13 @@ function card(event) {
         dragdrop.className = 'dragdrop';
         dragdrop.id = `${cardno}`;
 
-        dragdrop.addEventListener('touchstart',starttouch,{ passive: false });
-        dragdrop.addEventListener('touchmove',movetouch,{ passive: false });
+        dragdrop.addEventListener("pointerdown", starttouch, { passive: false });
+        dragdrop.addEventListener('touchmove', movetouch, { passive: false });
         dragdrop.addEventListener('touchend', endtouch);
         dragdrop.addEventListener('dragover', (e) => {
             e.preventDefault();
         });
-        dragdrop.addEventListener('drop',dropevent);
+        dragdrop.addEventListener('drop', dropevent);
 
         let add = document.querySelectorAll(".task-list")[cardno];
         taskListTitleContainer.appendChild(taskListTitle);
@@ -381,7 +381,7 @@ function addListFunction(event) {
         taskPointer.appendChild(taskEdit);
         tasklit.appendChild(taskPointer);
 
-        taskPointer.addEventListener('dragstart',dragStarted);
+        taskPointer.addEventListener('dragstart', dragStarted);
 
         taskPointer.addEventListener('dragend', (e) => {
             e.target.style.opacity = '';
@@ -403,7 +403,8 @@ function addListFunction(event) {
         alert("Please add a value to the item.");
     }
 }
-function taskEdtior() {
+function taskEdtior(event) {
+    event.stopPropagation();
     const paren = this.parentElement;
     const value = this.parentElement.textContent;
     paren.textContent = '';
